@@ -5,8 +5,11 @@ DEFAULT_BUILD_VERSION="0.1"
 DEFAULT_BUILD_NUMBER="0"
 DEFAULT_BUILD_REVISION="0"
 
+# move to the root of git repo
+TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL
+
 # only try to extract if the project uses git
-#if [ -d ".git" ]; then
+if [ -d ".git" ]; then
 
   # the most recent tag is the next release
   # BUILD_VERSION=$(git describe --tags --abbrev=0 $(git rev-list --tags --max-count=1 HEAD) 2>/dev/null)
@@ -33,12 +36,12 @@ DEFAULT_BUILD_REVISION="0"
     BUILD_REVISION="${BUILD_REVISION}T${COMMITS_SINCE_TAG}M${NOT_COMMITTED}"
   fi
 
-#else
+else
   # no git, no revision, default first version
-#  BUILD_VERSION=$DEFAULT_BUILD_VERSION
-#  BUILD_REVISION=$DEFAULT_BUILD_REVISION
-# BUILD_NUMBER=$DEFAULT_BUILD_NUMBER
-#fi
+  BUILD_VERSION=$DEFAULT_BUILD_VERSION
+  BUILD_REVISION=$DEFAULT_BUILD_REVISION
+  BUILD_NUMBER=$DEFAULT_BUILD_NUMBER
+fi
 
 BUILD_YEAR=`date +%Y`
 
